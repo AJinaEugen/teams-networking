@@ -30,8 +30,11 @@ section {
   flex-direction: row;
 }
 
-.removeButton {
+.tfill {
   flex: 1;
+}
+
+.removeButton {
   margin: 10px 0px 10px 10px;
 }
 
