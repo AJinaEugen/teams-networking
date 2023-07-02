@@ -1,3 +1,83 @@
-h1 {
-  background: blue;
+html {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+body > header {
+  flex: 0;
+}
+body > section {
+  flex: 1;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-tools {
+  display: flex;
+  flex-direction: row;
+}
+
+.removeButton {
+  flex: 1;
+  margin: 10px 0px 10px 10px;
+}
+
+.searchField {
+  margin: 10px 10px 10px 0px;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  background-color: #057988;
+  height: 30px;
+  color: white;
+}
+
+body > footer {
+  flex: 0.1;
+  max-height: 30px;
+  background-color: aquamarine;
+}
+
+.header {
+  background-image: url(https://nmatei.github.io/teams-networking/images/th.png);
+}
+
+.header-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: aqua;
+  background-image: url(https://nmatei.github.io/teams-networking/images/th.png);
+
+  background: linear-gradient(45deg, #0798abfa, transparent);
+}
+
+.logo img {
+  margin-top: 15px;
+  margin-left: 10px;
+  width: 100px;
+  border-radius: 180px;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+}
+
+.header-wrapper > .text {
+  align-items: center;
+  margin-left: 20px;
+  color: white;
 }
