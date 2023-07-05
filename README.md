@@ -28,3 +28,7 @@ in current prject run
 ```sh
 npm start
 ```
+
+## Live preview
+
+[My Website](https://ajinaeugen.github.io/teams-networking/)
