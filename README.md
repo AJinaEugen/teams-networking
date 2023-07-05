@@ -16,4 +16,15 @@ npm install
 
 ## Start(Daily usage)
 
+in other terminal open
+
+```sh
+cd ~/Desktop/nodeAPI/node-api
 npm start
+```
+
+in current prject run
+
+```sh
+npm start
+```
