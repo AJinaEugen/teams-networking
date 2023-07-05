@@ -45,6 +45,10 @@ section {
 table {
   border-collapse: collapse;
 }
+
+table tfoot input:not([type="image" i]) {
+  box-sizing: border-box;
+}
 .tabel {
   margin: 0px 10px 0px 10px;
 }

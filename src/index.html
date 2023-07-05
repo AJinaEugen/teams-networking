@@ -24,18 +24,33 @@
         <div class="searchField"><input type="text" placeholder="search" /></div>
       </div>
       <div class="tabel">
-        <table border="solid" border-colapse width="100%">
-          <thead>
-            <th><input type="checkbox" name="" id="" /></th>
-            <th>Promotion</th>
-            <th>Members</th>
-            <th>Promject name</th>
-            <th>Project url</th>
-            <th>" "</th>
-          </thead>
+        <form id="teamsForm">
+          <table border="solid" border-colapse width="100%">
+            <thead>
+              <th><input type="checkbox" name="" id="" /></th>
+              <th>Promotion</th>
+              <th>Members</th>
+              <th>Promject name</th>
+              <th>Project url</th>
+              <th>" "</th>
+            </thead>
 
-          <tbody></tbody>
-        </table>
+            <tbody></tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td><input type="input" name="promotion" id="promotion" placeholder="Enter promotion" required /></td>
+                <td><input type="input" name="members" id="members" placeholder="Enter members" required /></td>
+                <td><input type="input" name="name" id="teamName" placeholder="Enter name" required /></td>
+                <td><input type="input" name="url" id="url" placeholder="Enter url" required /></td>
+                <td>
+                  <button type="submit">A</button>
+                  <button type="reset">B</button>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </form>
       </div>
     </section>
     <footer>linkuri</footer>
