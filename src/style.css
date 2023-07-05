@@ -28,6 +28,7 @@ section {
 .table-tools {
   display: flex;
   flex-direction: row;
+  align-items: stretch;
 }
 
 .tfill {
