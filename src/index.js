@@ -20,7 +20,7 @@ function renderTeams(teams) {
 }
 
 function loadTeams() {
-  fetch("http://localhost:3000/teams-json")
+  fetch("teams.json")
     .then(r => r.json())
     .then(renderTeams);
 }
