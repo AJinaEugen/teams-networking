@@ -44,10 +44,19 @@ section {
 table {
   border-collapse: collapse;
 }
+.tabel {
+  margin: 0px 10px 0px 10px;
+}
 th {
   background-color: #057988;
   height: 30px;
   color: white;
+}
+
+td {
+  text-align: center;
+  inline-size: 150px;
+  overflow-wrap: break-word;
 }
 
 body > footer {
