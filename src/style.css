@@ -98,3 +98,14 @@ body > footer {
   margin-left: 20px;
   color: white;
 }
+
+.delete-btn {
+  color: blue;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.delete-btn:hover {
+  color: rgb(88, 13, 13);
+  cursor: pointer;
+}

@@ -13,7 +13,10 @@ function getTeamAsHtml(team) {
               <td>${team.members}</td>
               <td>${team.name}</td>
               <td>${team.url}</td>
-              <td>X</td>
+              <td>
+              <a data-set=${team.id} class="delete-btn">🧨</a>
+              <a data-set=${team.di}class="edit-btn">&#9998</a>
+              </td>
             </tr>`;
 }
 
@@ -31,13 +34,24 @@ function loadTeams() {
 
 function createTeams(team) {
   //   POST teams-json/create
-  fetch("http://localhost:3000/teams-json/create", {
+  return fetch("http://localhost:3000/teams-json/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(team)
-  });
+  }).then(r => r.json());
+}
+
+function deleteTeam(id) {
+  // DELETE teams-json/delete
+  return fetch("http://localhost:3000/teams-json/delete", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id })
+  }).then(r => r.json());
 }
 
 function onSubmit(entry) {
@@ -59,6 +73,18 @@ function onSubmit(entry) {
 }
 function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
+  $("#teamsTable tbody").addEventListener("click", e => {
+    if (e.target.matches("a.delete-btn")) {
+      deleteTeam(e.target.getAttribute("data-set"));
+    }
+  });
+
+  $("#teamsTable tbody").addEventListener("click", e => {
+    if (e.target.matches("a.edit-btn")) {
+      console.log("edit");
+    }
+  });
 }
+
 loadTeams();
 initEvent();
