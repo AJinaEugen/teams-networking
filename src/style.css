@@ -105,7 +105,12 @@ body > footer {
   font-size: 20px;
 }
 
-.delete-btn:hover {
-  color: rgb(88, 13, 13);
+.edit-btn {
+  color: blue;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+button {
   cursor: pointer;
 }

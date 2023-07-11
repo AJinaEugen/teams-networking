@@ -2,6 +2,9 @@ import "./style.css";
 
 console.log("start");
 
+let allTeams = [];
+let editId;
+
 function $(element) {
   return document.querySelector(element);
 }
@@ -14,14 +17,30 @@ function getTeamAsHtml(team) {
               <td>${team.name}</td>
               <td>${team.url}</td>
               <td>
-              <a data-set=${team.id} class="delete-btn">🧨</a>
-              <a data-set=${team.di}class="edit-btn">&#9998</a>
+               <a data-id=${team.id} class="delete-btn" title="delete">🗑</a>
+              <a data-id=${team.id} class="edit-btn" title="edit">  🖍</a>
               </td>
             </tr>`;
 }
 
-function renderTeams(teams) {
-  const htmlTeams = teams.map(getTeamAsHtml);
+function getTeamAsHtmlInput(team) {
+  return `<tr>
+             <td></td>
+                <td><input value="${team.promotion}" type="input" name="promotion" id="promotion" placeholder="Enter promotion" required /></td>
+                <td><input value="${team.members}" type="input" name="members" id="members" placeholder="Enter members" required /></td>
+                <td><input value="${team.name}" type="input" name="name" id="teamName" placeholder="Enter name" required /></td>
+                <td><input value="${team.url}" type="input" name="url" id="url" placeholder="Enter url" required /></td>
+                <td>
+              <a data-id=${team.id} class="Save" title="Save me">💾</a>
+              <a data-id=${team.id} class="Cancel" title="Cancel"> ⛔</a>
+                </td>
+            </tr>`;
+}
+
+function renderTeams(teams, editId) {
+  const htmlTeams = teams.map(team => {
+    return team.id === editId ? getTeamAsHtmlInput(team) : getTeamAsHtml(team);
+  });
   const table = document.querySelector("tbody");
   table.innerHTML = htmlTeams.join("");
 }
@@ -29,7 +48,10 @@ function renderTeams(teams) {
 function loadTeams() {
   fetch("http://localhost:3000/teams-json")
     .then(r => r.json())
-    .then(renderTeams);
+    .then(teams => {
+      allTeams = teams;
+      renderTeams(teams);
+    });
 }
 
 function createTeams(team) {
@@ -54,6 +76,11 @@ function deleteTeam(id) {
   }).then(r => r.json());
 }
 
+function startEdit(id) {
+  editId = id;
+  renderTeams(allTeams, editId);
+}
+
 function onSubmit(entry) {
   entry.preventDefault();
 
@@ -68,20 +95,25 @@ function onSubmit(entry) {
     name: teamName,
     url: url
   };
-  console.log(team);
-  createTeams(team);
+  createTeams(team).then(status => {
+    if (status.success) {
+      window.location.reload();
+    }
+  });
 }
 function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches("a.delete-btn")) {
-      deleteTeam(e.target.getAttribute("data-set"));
-    }
-  });
-
-  $("#teamsTable tbody").addEventListener("click", e => {
-    if (e.target.matches("a.edit-btn")) {
-      console.log("edit");
+      deleteTeam(e.target.dataset.id).then(status => {
+        if (status.success) {
+          window.location.reload();
+        }
+      });
+    } else if (e.target.matches("a.edit-btn")) {
+      $("#teamsTable tbody").addEventListener("click", e => {
+        startEdit(e.target.dataset.id);
+      });
     }
   });
 }
