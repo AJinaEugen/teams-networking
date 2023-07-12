@@ -26,13 +26,13 @@ function getTeamAsHtml(team) {
 function getTeamAsHtmlInput(team) {
   return `<tr>
              <td></td>
-                <td><input value="${team.promotion}" type="input" name="promotion" id="promotion" placeholder="Enter promotion" required /></td>
-                <td><input value="${team.members}" type="input" name="members" id="members" placeholder="Enter members" required /></td>
+                <td><input value="${team.promotion}" type="input" name="promotion" id="promotion" placeholder="Enter promotion" required  /></td>
+                <td><input value="${team.members}" type="input" name="members" id="members" placeholder="Enter members" required  /></td>
                 <td><input value="${team.name}" type="input" name="name" id="teamName" placeholder="Enter name" required /></td>
                 <td><input value="${team.url}" type="input" name="url" id="url" placeholder="Enter url" required /></td>
                 <td>
-              <a data-id=${team.id} class="Save" title="Save me">💾</a>
-              <a data-id=${team.id} class="Cancel" title="Cancel"> ⛔</a>
+                    <button type="submit" title="Save"> 💾 </button> 
+                    <button type="reset" title="Cancel"> ⛔ </button>
                 </td>
             </tr>`;
 }
@@ -79,15 +79,18 @@ function deleteTeam(id) {
 function startEdit(id) {
   editId = id;
   renderTeams(allTeams, editId);
+  document.querySelectorAll("tfoot input").forEach(input => {
+    input.disabled = true;
+  });
 }
 
 function onSubmit(entry) {
   entry.preventDefault();
 
-  const promotion = $("#promotion").value;
-  const member = $("#members").value;
-  const teamName = $("#teamName").value;
-  const url = $("#url").value;
+  const promotion = $("tfoot input[name=promotion]").value;
+  const member = $("tfoot input[name=members ]").value;
+  const teamName = $("tfoot input[name=name]").value;
+  const url = $("tfoot input[name=url]").value;
 
   const team = {
     promotion: promotion,
@@ -111,9 +114,7 @@ function initEvent() {
         }
       });
     } else if (e.target.matches("a.edit-btn")) {
-      $("#teamsTable tbody").addEventListener("click", e => {
-        startEdit(e.target.dataset.id);
-      });
+      startEdit(e.target.dataset.id);
     }
   });
 }
