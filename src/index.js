@@ -76,6 +76,16 @@ function deleteTeam(id) {
   }).then(r => r.json());
 }
 
+function updateTeam(team) {
+  return fetch("http://localhost:3000/teams-json/update", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(team)
+  }).then(r => r.json());
+}
+
 function startEdit(id) {
   editId = id;
   renderTeams(allTeams, editId);
@@ -84,13 +94,11 @@ function startEdit(id) {
   });
 }
 
-function onSubmit(entry) {
-  entry.preventDefault();
-
-  const promotion = $("tfoot input[name=promotion]").value;
-  const member = $("tfoot input[name=members ]").value;
-  const teamName = $("tfoot input[name=name]").value;
-  const url = $("tfoot input[name=url]").value;
+function getTeamValues(parent) {
+  const promotion = $(`${parent} input[name=promotion]`).value;
+  const member = $(`${parent} input[name=members ]`).value;
+  const teamName = $(`${parent} input[name=name]`).value;
+  const url = $(`${parent} input[name=url]`).value;
 
   const team = {
     promotion: promotion,
@@ -98,11 +106,29 @@ function onSubmit(entry) {
     name: teamName,
     url: url
   };
-  createTeams(team).then(status => {
-    if (status.success) {
-      window.location.reload();
-    }
-  });
+  return team;
+}
+
+function onSubmit(entry) {
+  entry.preventDefault();
+
+  const team = getTeamValues(editId ? "tbody" : "tfoot");
+
+  if (editId) {
+    team.id = editId;
+    updateTeam(team).then(status => {
+      if (status.success) {
+        console.log(status);
+        window.location.reload();
+      }
+    });
+  } else {
+    createTeams(team).then(status => {
+      if (status.success) {
+        window.location.reload();
+      }
+    });
+  }
 }
 function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
