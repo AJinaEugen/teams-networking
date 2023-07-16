@@ -1,5 +1,5 @@
 import "./style.css";
-
+// main flag
 console.log("start");
 
 let allTeams = [];
