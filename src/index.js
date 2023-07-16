@@ -1,5 +1,5 @@
 import "./style.css";
-// feature branch
+
 console.log("start");
 
 let allTeams = [];
@@ -51,6 +51,7 @@ function loadTeams() {
     .then(teams => {
       allTeams = teams;
       renderTeams(teams);
+      setInputDisabled(false);
     });
 }
 
@@ -84,19 +85,20 @@ function updateTeam(team) {
     },
     body: JSON.stringify(team)
   }).then(r => {
-    document.querySelectorAll("tfoot input").forEach(input => {
-      input.disabled = false;
-    });
     return r.json();
+  });
+}
+
+function setInputDisabled(disabled) {
+  document.querySelectorAll("tfoot input").forEach(input => {
+    input.disabled = disabled;
   });
 }
 
 function startEdit(id) {
   editId = id;
   renderTeams(allTeams, editId);
-  document.querySelectorAll("tfoot input").forEach(input => {
-    input.disabled = true;
-  });
+  setInputDisabled(true);
 }
 
 function getTeamValues(parent) {
@@ -137,6 +139,11 @@ function onSubmit(entry) {
 }
 function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
+  $("#teamsForm").addEventListener("reset", e => {
+    if (editId) {
+      loadTeams();
+    }
+  });
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches("a.delete-btn")) {
       deleteTeam(e.target.dataset.id).then(status => {
