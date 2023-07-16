@@ -83,7 +83,12 @@ function updateTeam(team) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(team)
-  }).then(r => r.json());
+  }).then(r => {
+    document.querySelectorAll("tfoot input").forEach(input => {
+      input.disabled = false;
+    });
+    return r.json();
+  });
 }
 
 function startEdit(id) {
