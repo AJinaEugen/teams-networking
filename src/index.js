@@ -119,13 +119,13 @@ function onSubmit(entry) {
     updateTeam(team).then(status => {
       if (status.success) {
         console.log(status);
-        window.location.reload();
+        loadTeams();
       }
     });
   } else {
     createTeams(team).then(status => {
       if (status.success) {
-        window.location.reload();
+        loadTeams();
       }
     });
   }
@@ -136,7 +136,7 @@ function initEvent() {
     if (e.target.matches("a.delete-btn")) {
       deleteTeam(e.target.dataset.id).then(status => {
         if (status.success) {
-          window.location.reload();
+          loadTeams();
         }
       });
     } else if (e.target.matches("a.edit-btn")) {
