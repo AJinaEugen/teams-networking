@@ -92,6 +92,8 @@ function updateTeam(team) {
 function setInputDisabled(disabled) {
   document.querySelectorAll("tfoot input").forEach(input => {
     input.disabled = disabled;
+    console.log(input);
+    input.value = "";
   });
 }
 
