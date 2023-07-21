@@ -15,10 +15,10 @@ function getTeamAsHtml(team) {
               <td>${team.promotion}</td>
               <td>${team.members}</td>
               <td>${team.name}</td>
-              <td>${team.url}</td>
+              <td><a target="_blank" href="#" </a>${team.url}</td>
               <td>
-               <a data-id=${team.id} class="delete-btn" title="delete">🗑</a>
-              <a data-id=${team.id} class="edit-btn" title="edit">  🖍</a>
+               <button type="button" data-id=${team.id} class="delete-btn" title="delete">🗑</button>
+              <button type="button" data-id=${team.id} class="edit-btn" title="edit">  🖍</button>
               </td>
             </tr>`;
 }
@@ -52,6 +52,7 @@ function loadTeams() {
       allTeams = teams;
       renderTeams(teams);
       setInputDisabled(false);
+      editId = null;
     });
 }
 
@@ -147,13 +148,13 @@ function initEvent() {
     }
   });
   $("#teamsTable tbody").addEventListener("click", e => {
-    if (e.target.matches("a.delete-btn")) {
+    if (e.target.matches("button.delete-btn")) {
       deleteTeam(e.target.dataset.id).then(status => {
         if (status.success) {
           loadTeams();
         }
       });
-    } else if (e.target.matches("a.edit-btn")) {
+    } else if (e.target.matches("button.edit-btn")) {
       startEdit(e.target.dataset.id);
     }
   });
