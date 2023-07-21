@@ -52,6 +52,7 @@ function loadTeams() {
       allTeams = teams;
       renderTeams(teams);
       setInputDisabled(false);
+      editId = null;
     });
 }
 
