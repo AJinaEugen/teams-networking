@@ -15,7 +15,7 @@ function getTeamAsHtml(team) {
               <td>${team.promotion}</td>
               <td>${team.members}</td>
               <td>${team.name}</td>
-              <td>${team.url}</td>
+              <td ><a href=# >${team.url}</a></td>
               <td>
                <a data-id=${team.id} class="delete-btn" title="delete">🗑</a>
               <a data-id=${team.id} class="edit-btn" title="edit">  🖍</a>
