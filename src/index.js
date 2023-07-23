@@ -105,8 +105,9 @@ function startEdit(id) {
 }
 
 function filterElements(teams, search) {
+  search = search.toLowerCase();
   return teams.filter(team => {
-    return team.promotion.includes(search);
+    return team.promotion.toLowerCase().includes(search);
   });
 }
 
