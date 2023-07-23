@@ -15,7 +15,7 @@ function getTeamAsHtml(team) {
               <td>${team.promotion}</td>
               <td>${team.members}</td>
               <td>${team.name}</td>
-              <td><a target="_blank" href="#" </a>${team.url}</td>
+              <td ><a href=# >${team.url}</a></td>
               <td>
                <button type="button" data-id=${team.id} class="delete-btn" title="delete">🗑</button>
               <button type="button" data-id=${team.id} class="edit-btn" title="edit">  🖍</button>
@@ -104,6 +104,18 @@ function startEdit(id) {
   setInputDisabled(true);
 }
 
+function filterElements(teams, search) {
+  search = search.toLowerCase();
+  return teams.filter(team => {
+    return (
+      team.promotion.toLowerCase().includes(search) ||
+      team.members.toLowerCase().includes(search) ||
+      team.name.toLowerCase().includes(search) ||
+      team.url.toLowerCase().includes(search)
+    );
+  });
+}
+
 function getTeamValues(parent) {
   const promotion = $(`${parent} input[name=promotion]`).value;
   const member = $(`${parent} input[name=members ]`).value;
@@ -157,6 +169,10 @@ function initEvent() {
     } else if (e.target.matches("button.edit-btn")) {
       startEdit(e.target.dataset.id);
     }
+  });
+  $("#searchField").addEventListener("input", e => {
+    const teams = filterElements(allTeams, e.target.value);
+    renderTeams(teams);
   });
 }
 

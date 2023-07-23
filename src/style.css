@@ -13,6 +13,11 @@ body {
   height: 100%;
 }
 
+a:visited {
+  text-decoration: none;
+  color: rgb(55, 88, 236);
+}
+
 body > header {
   flex: 0;
 }
