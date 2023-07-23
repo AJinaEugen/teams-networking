@@ -104,6 +104,12 @@ function startEdit(id) {
   setInputDisabled(true);
 }
 
+function filterElements(teams, search) {
+  return teams.filter(team => {
+    return team.promotion.includes(search);
+  });
+}
+
 function getTeamValues(parent) {
   const promotion = $(`${parent} input[name=promotion]`).value;
   const member = $(`${parent} input[name=members ]`).value;
@@ -157,6 +163,10 @@ function initEvent() {
     } else if (e.target.matches("a.edit-btn")) {
       startEdit(e.target.dataset.id);
     }
+  });
+  $("#searchField").addEventListener("input", e => {
+    const teams = filterElements(allTeams, e.target.value);
+    renderTeams(teams);
   });
 }
 
