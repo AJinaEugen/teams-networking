@@ -67,7 +67,7 @@ function createTeams(team) {
   }).then(r => r.json());
 }
 
-function deleteTeam(id) {
+function deleteTeam(id, callback) {
   // DELETE teams-json/delete
   return fetch("http://localhost:3000/teams-json/delete", {
     method: "DELETE",
@@ -75,7 +75,13 @@ function deleteTeam(id) {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ id })
-  }).then(r => r.json());
+  }).then(r =>
+    r.json().then(status => {
+      if (typeof callback === "function") {
+        callback(status);
+      }
+    })
+  );
 }
 
 function updateTeam(team) {
@@ -161,7 +167,7 @@ function initEvent() {
   });
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches("a.delete-btn")) {
-      deleteTeam(e.target.dataset.id).then(status => {
+      deleteTeam(e.target.dataset.id, status => {
         if (status.success) {
           loadTeams();
         }
