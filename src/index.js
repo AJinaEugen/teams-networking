@@ -99,7 +99,7 @@ function updateTeam(team) {
 function setInputDisabled(disabled) {
   document.querySelectorAll("tfoot input").forEach(input => {
     input.disabled = disabled;
-    console.log(input);
+
     input.value = "";
   });
 }
@@ -146,7 +146,6 @@ function onSubmit(entry) {
     team.id = editId;
     updateTeam(team).then(status => {
       if (status.success) {
-        console.log(status);
         loadTeams();
       }
     });
@@ -154,8 +153,9 @@ function onSubmit(entry) {
     createTeams(team).then(status => {
       if (status.success) {
         team.id = status.id;
-        allTeams.push(team);
+        allTeams = [...allTeams, team];
         renderTeams(allTeams);
+        $("#teamsForm").reset();
       }
     });
   }
