@@ -153,7 +153,9 @@ function onSubmit(entry) {
   } else {
     createTeams(team).then(status => {
       if (status.success) {
-        loadTeams();
+        team.id = status.id;
+        allTeams.push(team);
+        renderTeams(allTeams);
       }
     });
   }
