@@ -128,3 +128,17 @@ body > footer {
 button {
   cursor: pointer;
 }
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.numberElement {
+  margin: 10px;
+  cursor: pointer;
+  background-color: rgb(178, 178, 235);
+  border-radius: 10px;
+}

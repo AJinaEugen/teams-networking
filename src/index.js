@@ -2,6 +2,20 @@ import "./style.css";
 // Feature flag
 console.log("start");
 
+let activePage = 1;
+
+(function () {
+  location.hash = activePage;
+  const hash = document.location.hash;
+  if (hash) {
+    const link = $("#pagination");
+
+    if (link) {
+      location.hash = activePage;
+    }
+  }
+})();
+
 let allTeams = [];
 let editId;
 
@@ -37,20 +51,46 @@ function getTeamAsHtmlInput(team) {
             </tr>`;
 }
 
-function renderTeams(teams, editId) {
+function renderTeams(teams, editId, pagenumber) {
   const htmlTeams = teams.map(team => {
     return team.id === editId ? getTeamAsHtmlInput(team) : getTeamAsHtml(team);
   });
+
+  const pages = htmlTeams.length / 5;
+  const pagination = document.querySelector(".pagination");
+  const arrayOfPages = [];
+  for (let i = 0; i < pages; i++) {
+    arrayOfPages.push(`<div class="numberElement" >${i + 1}</div>`);
+  }
+  pagination.innerHTML = arrayOfPages.join("");
+
+  const paginatedTeam = doPagination(htmlTeams, pagenumber);
+
   const table = document.querySelector("tbody");
-  table.innerHTML = htmlTeams.join("");
+  table.innerHTML = paginatedTeam.join("");
 }
 
-function loadTeams() {
+function doPagination(team, pageNumber) {
+  const paginatedTeam = [];
+  let start;
+
+  for (start = pageNumber * 5 - 5; start < pageNumber * 5; start++) {
+    if (team[start]) {
+      paginatedTeam.push(team[start]);
+    } else {
+      console.log("undefined");
+    }
+  }
+
+  return paginatedTeam;
+}
+
+function loadTeams(pageNumber) {
   fetch("http://localhost:3000/teams-json")
     .then(r => r.json())
     .then(teams => {
       allTeams = teams;
-      renderTeams(teams);
+      renderTeams(allTeams, editId, pageNumber);
       setInputDisabled(false);
       editId = null;
     });
@@ -100,7 +140,7 @@ function setInputDisabled(disabled) {
 
 function startEdit(id) {
   editId = id;
-  renderTeams(allTeams, editId);
+  renderTeams(allTeams, editId, activePage);
   setInputDisabled(true);
 }
 
@@ -141,13 +181,14 @@ function onSubmit(entry) {
     updateTeam(team).then(status => {
       if (status.success) {
         console.log(status);
-        loadTeams();
+        editId = null;
+        loadTeams(activePage);
       }
     });
   } else {
     createTeams(team).then(status => {
       if (status.success) {
-        loadTeams();
+        loadTeams(activePage);
       }
     });
   }
@@ -156,14 +197,14 @@ function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsForm").addEventListener("reset", e => {
     if (editId) {
-      loadTeams();
+      loadTeams(pageNumber);
     }
   });
   $("#teamsTable tbody").addEventListener("click", e => {
     if (e.target.matches("button.delete-btn")) {
       deleteTeam(e.target.dataset.id).then(status => {
         if (status.success) {
-          loadTeams();
+          loadTeams(activePage);
         }
       });
     } else if (e.target.matches("button.edit-btn")) {
@@ -174,7 +215,17 @@ function initEvent() {
     const teams = filterElements(allTeams, e.target.value);
     renderTeams(teams);
   });
+
+  $("#pagination").addEventListener("click", e => {
+    if (e.target.matches(".numberElement")) {
+      let pageNumber = parseInt(e.target.innerHTML);
+
+      loadTeams(pageNumber);
+      activePage = pageNumber;
+      location.hash = pageNumber;
+    }
+  });
 }
 
-loadTeams();
+loadTeams(activePage);
 initEvent();
