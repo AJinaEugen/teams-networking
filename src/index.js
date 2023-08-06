@@ -197,7 +197,10 @@ function initEvent() {
   $("#teamsForm").addEventListener("submit", onSubmit);
   $("#teamsForm").addEventListener("reset", e => {
     if (editId) {
+      let pageNumber = activePage;
       loadTeams(pageNumber);
+    } else {
+      loadTeams(activePage);
     }
   });
   $("#teamsTable tbody").addEventListener("click", e => {
