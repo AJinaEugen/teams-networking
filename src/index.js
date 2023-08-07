@@ -146,7 +146,17 @@ function onSubmit(entry) {
     team.id = editId;
     updateTeam(team).then(status => {
       if (status.success) {
-        loadTeams();
+        //loadTeams();
+        const edited = allTeams.find(t => t.id === team.id);
+        edited.promotion = team.promotion;
+        edited.members = team.members;
+        edited.url = team.url;
+        edited.name = team.name;
+
+        allTeams = [...allTeams];
+        renderTeams(allTeams);
+        setInputDisabled(false);
+        editId = "";
       }
     });
   } else {
