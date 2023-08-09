@@ -37,7 +37,20 @@ function getTeamAsHtmlInput(team) {
             </tr>`;
 }
 
+let previewTeams = [];
 function renderTeams(teams, editId) {
+  if (!editId && teams === previewTeams) {
+    console.log("Team already exists");
+    return;
+  }
+
+  if (!editId && teams.length === previewTeams.length) {
+    console.log("hee");
+    const sameContent = previewTeams.every((team, i) => team === teams[i]);
+    console.log(`same content`, sameContent);
+  }
+
+  previewTeams = teams;
   const htmlTeams = teams.map(team => {
     return team.id === editId ? getTeamAsHtmlInput(team) : getTeamAsHtml(team);
   });
@@ -189,7 +202,8 @@ function initEvent() {
     }
   });
   $("#searchField").addEventListener("input", e => {
-    const teams = filterElements(allTeams, e.target.value);
+    let teams = filterElements(allTeams, e.target.value);
+
     renderTeams(teams);
   });
 }
