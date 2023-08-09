@@ -48,6 +48,9 @@ function renderTeams(teams, editId) {
     console.log("hee");
     const sameContent = previewTeams.every((team, i) => team === teams[i]);
     console.log(`same content`, sameContent);
+    if (sameContent) {
+      return;
+    }
   }
 
   previewTeams = teams;
@@ -160,13 +163,12 @@ function onSubmit(entry) {
     updateTeam(team).then(status => {
       if (status.success) {
         //loadTeams();
-        const edited = allTeams.find(t => t.id === team.id);
-        edited.promotion = team.promotion;
-        edited.members = team.members;
-        edited.url = team.url;
-        edited.name = team.name;
-
-        allTeams = [...allTeams];
+        allTeams = allTeams.map(t => {
+          if (t.id === team.id) {
+            return team;
+          }
+          return t;
+        });
         renderTeams(allTeams);
         setInputDisabled(false);
         editId = "";
